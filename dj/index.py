@@ -17,4 +17,17 @@ def hello(request):
     return JsonResponse(data)
 
 
+def login(request):
+    if request.method == 'POST':
+        userInfoId = models.TextField()
+        name = request.POST.get('name',None)
+        age = models.IntegerField()
+        imageUrl = models.TextField(null=True)
+        ip = models.TextField(null=True)
+        province = models.TextField(null=True)
+        city = models.TextField(null=True)
+        createTime = models.DateTimeField('创建日期', auto_now_add=True)
+        updateTime = models.DateTimeField('修改日期', auto_now=True)
+
+
 
