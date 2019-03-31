@@ -16,14 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-import Note
-from . import index
+from Note import views as new_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('regist', Note.views.registPersonal),
-    path('loginPersonal', Note.views.loginPersonal),
-    path('updatePersonal', Note.views.updatePersonal),
-    path('list', Note.views.list),
-    path('personalInfo', Note.views.personalInfo),
+    path('registPersonal/', new_views.registPersonal),
+    path('loginPersonal', new_views.loginPersonal),
+    path('updatePersonal', new_views.updatePersonal),
+    path('list', new_views.list),
+    # path('personalInfo', new_views.personalInfo),
 ]
