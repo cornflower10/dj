@@ -61,6 +61,11 @@ def logout(self, request):
         auth.logout(request)
         return HttpResponse('OK')
 
+# 个人主页
+def  personal(request):
+   return render(request, 'personal_user/personal.html',)
+
+
 def  updatePersonal(request):
     models.UserInfo.username
 
@@ -68,7 +73,7 @@ def  list(request):
     models.UserInfo.username
 
 
-def res(request,success,data,code,msg):
+def res(request,success,data=[],code='',msg=''):
     result = {"success":success,"data":data,"errorCode":code,"msg":msg}
     #json返回为中文
     return HttpResponse(json.dumps(result,ensure_ascii=False),content_type="application/json,charset=utf-8")

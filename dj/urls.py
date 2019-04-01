@@ -22,7 +22,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('registPersonal/', new_views.registPersonal),
     path('loginPersonal', new_views.loginPersonal),
+    path('personal', new_views.personal),
     path('updatePersonal', new_views.updatePersonal),
     path('list', new_views.list),
+
     # path('personalInfo', new_views.personalInfo),
 ]
