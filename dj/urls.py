@@ -27,6 +27,6 @@ urlpatterns = [
     path('personal', new_views.personal),
     path('updatePersonal', new_views.updatePersonal),
     path('list', new_views.list),
-
+    path('vip', new_views.vip),
     # path('personalInfo', new_views.personalInfo),
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

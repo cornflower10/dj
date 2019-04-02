@@ -1,16 +1,71 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-</head>
-<body>
-<div class="btn-group" role="group" aria-label="...">
-  <button type="button" class="btn btn-default" id="one">一个月</button>
-  <button type="button" class="btn btn-default" id="two">半年</button>
-  <button type="button" class="btn btn-default" id="three">一年</button>
-</div>
-</body>
-</html>
+{% extends 'base.html' %}
+{% block title %}vip{% endblock %}
+{% block content %}
+    <div class="btn-group" role="group" aria-label="...">
+        <button type="button" class="btn btn-default" id="one">一个月(30天)</button>
+        <button type="button" class="btn btn-default" id="two">半年（180天）</button>
+        <button type="button" class="btn btn-default" id="three">一年（365天）</button>
+    </div>
+    <div class="panel panel-default panel-top-30">
+        <div class="panel-heading">价格</div>
+        <div class="panel-body" id="amount">
+            100元
+        </div>
+    </div>
+    <button id="ok" class="btn btn-primary btn-lg btn-block button panel-top-30">确定</button>
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript" language="JavaScript">
+
+       var  type = "one"
+
+        $("#one").click(function () {
+            console.log(this.id)
+            $("#amount").html("100元")
+            type = this.id
+        })
+        $("#two").click(function () {
+            console.log(this.id)
+            $("#amount").html("500元")
+             type = this.id
+        })
+        $("#three").click(function () {
+            console.log(this.id)
+            $("#amount").html("1000元")
+             type = this.id
+        })
+
+
+         $('#ok').click(function(){
+        $.ajax({
+            type:"POST",
+            url:"/vip",
+            data:{"type":type},
+            success:function(data){
+                console.log(data)
+                if(data.success){
+                    window.location.href="/personal"
+
+                }else
+               {
+                var errors = data["errors"];
+
+                   alert(errors);
+                    var str = ""
+                    for (var key in errors){
+                        str += errors[key]+"\n";
+                    }
+                    alert(str);
+                }
+
+            },
+            error:function(XMLHttpRequest, textStatus, errorThrown){
+                alert(XMLHttpRequest.responseText);
+            }
+        });
+        return false;
+    });
+
+    </script>
+{% endblock %}

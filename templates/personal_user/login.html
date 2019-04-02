@@ -1,18 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>d登录</title>
-    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="../../static/css/common.css" type="text/css">
-</head>
-<body>
-<div class="container">
-    <form class="form-signin">
+{% extends 'base.html' %}
+{% block title %}vip{% endblock %}
+{% block content %}
+    <form class="form-signin" id="login">
         <div class="form-group ">
             <label for="name">用户名</label>
             <input type="text" class="form-control" id="name" placeholder="用户名">
@@ -25,10 +14,38 @@
         <button type="submit" class="btn btn-primary btn-lg btn-block button">登录</button>
     </form>
 </div>
+{% endblock %}
+{% block js %}
+    <script language="javascript" type="text/javascript">
+    $('#login').submit(function(){
+        $.ajax({
+            type:"POST",
+            url:"/loginPersonal",
+            data:{"username":$("#name").val(),"password":$("#password").val()},
+            success:function(data,textStatus){
+                console.log(data)
+                if(data.success){
+                    console.log(data.user)
+                    window.location.href="/personal"
 
-<script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
-        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-        crossorigin="anonymous"></script>
-</body>
-</html>
+                }else
+               {
+                var errors = data["errors"];
+
+                   alert(errors);
+                    var str = ""
+                    for (var key in errors){
+                        str += errors[key]+"\n";
+                    }
+                    alert(str);
+                }
+
+            },
+            error:function(XMLHttpRequest, textStatus, errorThrown){
+                alert(XMLHttpRequest.responseText);
+            }
+        });
+        return false;
+    });
+</script>
+{% endblock %}

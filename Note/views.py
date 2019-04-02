@@ -10,6 +10,7 @@ from django.shortcuts import render
 import logging
 from Note import models
 from Note.forms import VmaigUserCreationForm
+from Note.models import UserInfo
 
 logger = logging.getLogger(__name__)
 #个人注册
@@ -46,7 +47,7 @@ def  loginPersonal(request):
 
     if user is not None:
         auth.login(request, user)
-        return res(request, "true",user)
+        return res(request, "true")
     else:
         errors.append(u"密码或者用户名不正确")
 
@@ -66,6 +67,18 @@ def logout(self, request):
 @login_required
 def  personal(request):
    return render(request, 'personal_user/personal.html',)
+
+# 充会员
+@login_required
+def  vip(request):
+  if request.method == 'POST':
+      type = request.POST.get("type", "")
+      user =request.user
+      print(user)
+      return res(request, "true")
+
+  else:
+   return render(request, 'personal_user/vip.html')
 
 @login_required
 def  updatePersonal(request):

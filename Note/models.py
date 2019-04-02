@@ -19,6 +19,19 @@ class UserInfo(AbstractUser):
     desc = models.CharField(max_length=100,null=True, blank=True)
     location = models.CharField(max_length=50,null=True, blank=True)
     tag = models.CharField(max_length=10,null=True, blank=True)
+
+    def toJSON(self):
+        fields = []
+        for field in self._meta.fields:
+            fields.append(field.name)
+
+        d = {}
+        for attr in fields:
+            d[attr] = getattr(self, attr)
+
+        import json
+        return json.dumps(d)
+
 class MerchantInfo(models.Model):
     id = models.AutoField(primary_key=True, unique=True,auto_created=True)
     status = models.CharField('状态1未审核2审核中3审核通过', max_length=1, default=1)
