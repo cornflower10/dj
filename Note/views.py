@@ -1,6 +1,7 @@
 import json
 
 from django.contrib import auth
+from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -36,6 +37,7 @@ def  registPersonal(request):
 
 
 def  loginPersonal(request):
+   if request.method == 'POST':
     username = request.POST.get("username", "")
     password = request.POST.get("password", "")
     user = auth.authenticate(username=username, password=password)
@@ -44,14 +46,13 @@ def  loginPersonal(request):
 
     if user is not None:
         auth.login(request, user)
+        return res(request, "true",user)
     else:
         errors.append(u"密码或者用户名不正确")
 
     mydict = {"errors": errors}
-    return HttpResponse(
-        json.dumps(mydict),
-        content_type="application/json"
-    )
+    return res(request, "false", mydict)
+   return render(request, 'personal_user/login.html')
 
 def logout(self, request):
     if not request.user.is_authenticated():
@@ -62,10 +63,11 @@ def logout(self, request):
         return HttpResponse('OK')
 
 # 个人主页
+@login_required
 def  personal(request):
    return render(request, 'personal_user/personal.html',)
 
-
+@login_required
 def  updatePersonal(request):
     models.UserInfo.username
 
