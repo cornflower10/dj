@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
-{% block title %}vip{% endblock %}
+{% block title %}登录{% endblock %}
 {% block content %}
     <form class="form-signin" id="login">
+        <h5 class="error-display" id="error"></h5>
         <div class="form-group ">
             <label for="name">用户名</label>
             <input type="text" class="form-control" id="name" placeholder="用户名">
@@ -20,24 +21,24 @@
     $('#login').submit(function(){
         $.ajax({
             type:"POST",
-            url:"/loginPersonal",
+            url:"/loginPersonal/",
             data:{"username":$("#name").val(),"password":$("#password").val()},
-            success:function(data,textStatus){
+            success:function(data){
                 console.log(data)
                 if(data.success){
                     console.log(data.user)
-                    window.location.href="/personal"
+                    window.location.href="/personal/"
 
                 }else
                {
-                var errors = data["errors"];
-
-                   alert(errors);
+                var errors = data.msg;
                     var str = ""
                     for (var key in errors){
                         str += errors[key]+"\n";
                     }
-                    alert(str);
+                    $('#error').removeClass("error-display")
+                     $('#error').addClass("error-display-block")
+                    $('#error').html(str)
                 }
 
             },

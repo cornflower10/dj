@@ -1,10 +1,17 @@
 {% extends 'base.html' %}
 {% block title %}vip{% endblock %}
 {% block content %}
-    <div class="btn-group" role="group" aria-label="...">
-        <button type="button" class="btn btn-default" id="one">一个月(30天)</button>
-        <button type="button" class="btn btn-default" id="two">半年（180天）</button>
-        <button type="button" class="btn btn-default" id="three">一年（365天）</button>
+
+    <div class="btn-group-vertical" data-toggle="buttons">
+        <label class="btn btn-primary active">
+            <input type="radio" autocomplete="off" checked id="one" value="100"> 一个月(30天)：100元
+        </label>
+        <label class="btn btn-primary">
+            <input type="radio" autocomplete="off" id="two" value="500"> 半年（180天）:500元
+        </label>
+        <label class="btn btn-primary">
+            <input type="radio" autocomplete="off" id="three" value="900"> 一年（365天）：1000元
+        </label>
     </div>
     <div class="panel panel-default panel-top-30">
         <div class="panel-heading">价格</div>
@@ -40,7 +47,7 @@
          $('#ok').click(function(){
         $.ajax({
             type:"POST",
-            url:"/vip",
+            url:"/vip/",
             data:{"type":type},
             success:function(data){
                 console.log(data)
@@ -49,7 +56,7 @@
 
                 }else
                {
-                var errors = data["errors"];
+                var errors = data.errors;
 
                    alert(errors);
                     var str = ""

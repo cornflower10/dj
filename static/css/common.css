@@ -16,3 +16,12 @@ body {
 .panel-top-30{
   margin-top: 30px;
 }
+
+.error-display{
+  color: red;
+  display: none;
+}
+.error-display-block{
+  color: red;
+  display: block;
+}

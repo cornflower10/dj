@@ -26,13 +26,13 @@ def  registPersonal(request):
     if request.method == 'POST':
       if form.is_valid():
          form.save()
-         return res(request, "true")
+         return res(request, True)
       else:
           for k, v in form.errors.items():
               # v.as_text() 详见django.forms.util.ErrorList 中
               errors.append(v.as_text())
       mydict = {"errors": errors}
-      return res(request,"false",mydict)
+      return res(request,False,mydict)
     return render(request, 'personal_user/regist.html', {'obj': form})
 
 
@@ -47,12 +47,12 @@ def  loginPersonal(request):
 
     if user is not None:
         auth.login(request, user)
-        return res(request, "true")
+        return res(request, True)
     else:
         errors.append(u"密码或者用户名不正确")
 
     mydict = {"errors": errors}
-    return res(request, "false", mydict)
+    return res(request, False, mydict)
    return render(request, 'personal_user/login.html')
 
 def logout(self, request):
@@ -66,7 +66,16 @@ def logout(self, request):
 # 个人主页
 @login_required
 def  personal(request):
-   return render(request, 'personal_user/personal.html',)
+    if request.method == 'POST':
+        desc = request.POST.get("desc", "")
+    else:
+     return render(request, 'personal_user/personal.html',)
+
+
+# 个人编辑
+@login_required
+def  sendFood(request):
+   return render(request, 'personal_user/edit_food.html',)
 
 # 充会员
 @login_required
@@ -75,7 +84,7 @@ def  vip(request):
       type = request.POST.get("type", "")
       user =request.user
       print(user)
-      return res(request, "true")
+      return res(request, True)
 
   else:
    return render(request, 'personal_user/vip.html')
@@ -88,7 +97,7 @@ def  list(request):
     models.UserInfo.username
 
 
-def res(request,success,data=[],code='',msg=''):
+def res(request,success,msg='',data=[],code=''):
     result = {"success":success,"data":data,"errorCode":code,"msg":msg}
     #json返回为中文
     return HttpResponse(json.dumps(result,ensure_ascii=False),content_type="application/json,charset=utf-8")
