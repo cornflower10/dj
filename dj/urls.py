@@ -31,6 +31,7 @@ urlpatterns = [
     path('vip/', new_views.vip),
 
     path('sendFood/', new_views.sendFood),
+    path('upload/', new_views.upload),
     url(r'^loginPersonal/', new_views.loginPersonal),
 
     # path('personalInfo', new_views.personalInfo),

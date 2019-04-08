@@ -77,6 +77,12 @@ def  personal(request):
 def  sendFood(request):
    return render(request, 'personal_user/edit_food.html',)
 
+# 个人编辑
+@login_required
+def  upload(request):
+    if request.method == 'POST':
+         print(request)
+    return render(request, 'personal_user/edit_food.html',)
 # 充会员
 @login_required
 def  vip(request):
