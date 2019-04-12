@@ -2,17 +2,17 @@
 {% block title %}编辑信息{% endblock %}
   {% block css %} <link href="/static/css/fileinput.css" rel="stylesheet">{% endblock %}
 {% block content %}
-    <form class="form-signin" id="upload">
+    <form class="form-signin" >
         <h5 class="error-display" id="error"></h5>
         <div class="form-group ">
             <label for="desc">描述</label>
             <input type="text" class="form-control" id="desc" placeholder="描述" name="desc">
         </div>
-        <input id="input-700" name="kartik-input-700[]" type="file" multiple class="file-loading">  <!-- 必须的 -->
+        <input id="input-700" name="file" class="form-control" type="file" multiple class="file-loading">  <!-- 必须的 -->
         <div id="kv-error-1" style="margin-top:10px;display:none"></div>
         <div id="kv-success-1" class="alert alert-success fade in" style="margin-top:10px;display:none"></div>
 
-        <button type="submit" class="btn btn-primary btn-lg btn-block button">提交</button>
+        <button type="button" id="upload" class="btn btn-primary btn-lg btn-block button">提交</button>
     </form>
     </div>
 {% endblock %}
@@ -22,6 +22,7 @@
     <script>
 
         $("#input-700").fileinput({
+
             uploadUrl: "/upload/", // server upload action
             language: 'zh',
             minFileCount: 0,
@@ -40,6 +41,7 @@
             showBrowse: true,
             browseOnZoneClick: true,
             dropZoneEnabled: false,//是否显示拖拽区域
+            async:false,
             ajaxSettings: {
                 contentType: false
             }
@@ -59,18 +61,18 @@
             }
         }).on('fileuploaded', function (event, data, id, index) {//上传成功之后的处理
             console.log(data)
-            inputFiles.push(data.response.data.id[0]);
-            var fname = data.files[index].name,
-                out = '<li>' + '文件 # ' + (index + 1) + ' - ' + fname + ' 上传成功！' + '</li>';
-            $('#kv-success-1 ul').append(out);
-            $('#kv-success-1').fadeIn('slow');
+{#            inputFiles.push(data.response.data.id[0]);#}
+{#            var fname = data.files[index].name,#}
+{#                out = '<li>' + '文件 # ' + (index + 1) + ' - ' + fname + ' 上传成功！' + '</li>';#}
+{#            $('#kv-success-1 ul').append(out);#}
+{#            $('#kv-success-1').fadeIn('slow');#}
         }).on('filebatchpreupload', function (event, data, id, index) {
             $('#kv-success-1').html('<h4>上传状态</h4><ul></ul>').hide();
         })
 
     </script>
     <script language="javascript" type="text/javascript">
-        $('#upload').submit(function () {
+        $('#upload').click(function () {
           $("#input-700").fileinput('upload')
         });
     </script>

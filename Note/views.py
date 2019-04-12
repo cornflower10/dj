@@ -82,9 +82,21 @@ def  sendFood(request):
 
 # 个人编辑
 @login_required
-def  upload(request):
+def  uploadImg(request):
     if request.method == 'POST':
-         print(request)
+        result = fileUploads(request)
+        if result:
+            return res(request, True, result)
+    return render(request, 'personal_user/edit_food.html',)
+
+# 个人编辑
+@login_required
+def  uploadDesc(request):
+    if request.method == 'POST':
+        desc = request.POST.get("desc", "")
+        if desc :
+            UserInfo.up
+
     return render(request, 'personal_user/edit_food.html',)
 # 充会员
 @login_required
@@ -112,11 +124,11 @@ def res(request,success,msg='',data=[],code=''):
     return HttpResponse(json.dumps(result,ensure_ascii=False),content_type="application/json,charset=utf-8")
 
 
-def FileUploads(req):
+def fileUploads(req):
     file = req.FILES.get('file')  # 获取文件对象，包括文件名文件大小和文件内容
     #print(file)
     curttime = time.strftime("%Y%m%d")
-    upload_url = os.path.join(settings.MEDIA_ROOT,'attachment',curttime)
+    upload_url = os.path.join(settings.MEDIA_ROOT,'uploads',curttime)
     #print(upload_url)
     folder = os.path.exists(upload_url)
     if not folder:
@@ -137,12 +149,12 @@ def FileUploads(req):
             upload_file_to.write(chunk)
         upload_file_to.close()
 
-        file_upload_url = settings.MEDIA_URL + 'attachment/' + curttime + '/' +finally_name
+        file_upload_url = settings.MEDIA_URL + 'uploads/' + curttime + '/' +finally_name
         #print(file_upload_url)
         #构建返回值
         response_data = {}
         response_data['FileName'] = file_name
         response_data['FileUrl'] = file_upload_url
-        response_json_data = json.dumps(response_data)
+        return response_data
         #print(response_data, response_json_data)
-        return HttpResponse(response_json_data)
+        # return HttpResponse(response_json_data)
